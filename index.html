@@ -13,34 +13,6 @@
 		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
 		<!-- Load Stripe.js on your website. -->
 		<script src="https://js.stripe.com/v3"></script>
-		<script>
-		var stripe = Stripe('pk_live_JvpFpLSvJsbpkQpkWeFuPdaQ00Ydj7UZO7');
-
-		var checkoutButton = document.getElementById('checkout-button-plan_FOQbgQI5CIVSxS');
-		checkoutButton.addEventListener('click', function () {
-			// When the customer clicks on the button, redirect
-			// them to Checkout.
-			stripe.redirectToCheckout({
-				items: [{plan: 'plan_FOQbgQI5CIVSxS', quantity: 1}],
-
-				// Do not rely on the redirect to the successUrl for fulfilling
-				// purchases, customers may not always reach the success_url after
-				// a successful payment.
-				// Instead use one of the strategies described in
-				// https://stripe.com/docs/payments/checkout/fulfillment
-				successUrl: 'http://www.leonornobrecosta.com/',
-				cancelUrl: 'http://www.leonornobrecosta.com/',
-			})
-			.then(function (result) {
-				if (result.error) {
-					// If `redirectToCheckout` fails due to a browser or network
-					// error, display the localized error message to your customer.
-					var displayError = document.getElementById('error-message');
-					displayError.textContent = result.error.message;
-				}
-			});
-		});
-		</script>
 	</head>
 	<body class="is-preload">
 		<div id="wrapper">
@@ -74,6 +46,34 @@
 			window.onload = function() { document.body.classList.remove('is-preload'); }
 			window.ontouchmove = function() { return false; }
 			window.onorientationchange = function() { document.body.scrollTop = 0; }
+		</script>
+		<script>
+			var stripe = Stripe('pk_live_JvpFpLSvJsbpkQpkWeFuPdaQ00Ydj7UZO7');
+
+			var checkoutButton = document.getElementById('checkout-button-plan_FOQbgQI5CIVSxS');
+			checkoutButton.addEventListener('click', function () {
+				// When the customer clicks on the button, redirect
+				// them to Checkout.
+				stripe.redirectToCheckout({
+					items: [{plan: 'plan_FOQbgQI5CIVSxS', quantity: 1}],
+
+					// Do not rely on the redirect to the successUrl for fulfilling
+					// purchases, customers may not always reach the success_url after
+					// a successful payment.
+					// Instead use one of the strategies described in
+					// https://stripe.com/docs/payments/checkout/fulfillment
+					successUrl: 'http://www.leonornobrecosta.com/',
+					cancelUrl: 'http://www.leonornobrecosta.com/',
+				})
+				.then(function (result) {
+					if (result.error) {
+						// If `redirectToCheckout` fails due to a browser or network
+						// error, display the localized error message to your customer.
+						var displayError = document.getElementById('error-message');
+						displayError.textContent = result.error.message;
+					}
+				});
+			});
 		</script>
 	</body>
 </html>
