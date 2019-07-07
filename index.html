@@ -11,6 +11,36 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 		<link rel="stylesheet" href="assets/css/main.css" />
 		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+		<!-- Load Stripe.js on your website. -->
+		<script src="https://js.stripe.com/v3"></script>
+		<script>
+		var stripe = Stripe('pk_live_JvpFpLSvJsbpkQpkWeFuPdaQ00Ydj7UZO7');
+
+		var checkoutButton = document.getElementById('checkout-button-plan_FOQbgQI5CIVSxS');
+		checkoutButton.addEventListener('click', function () {
+			// When the customer clicks on the button, redirect
+			// them to Checkout.
+			stripe.redirectToCheckout({
+			items: [{plan: 'plan_FOQbgQI5CIVSxS', quantity: 1}],
+
+			// Do not rely on the redirect to the successUrl for fulfilling
+			// purchases, customers may not always reach the success_url after
+			// a successful payment.
+			// Instead use one of the strategies described in
+			// https://stripe.com/docs/payments/checkout/fulfillment
+			successUrl: 'http://www.leonornobrecosta.com/',
+			cancelUrl: 'http://www.leonornobrecosta.com/',
+			})
+			.then(function (result) {
+			if (result.error) {
+				// If `redirectToCheckout` fails due to a browser or network
+				// error, display the localized error message to your customer.
+				var displayError = document.getElementById('error-message');
+				displayError.textContent = result.error.message;
+			}
+			});
+		});
+		</script>
 	</head>
 	<body class="is-preload">
 		<div id="wrapper">
@@ -28,7 +58,9 @@
 								<li><a href="mailto:mleoflor@gmail.com" class="icon solid fa-envelope"><span class="label">Email</span></a></li>
 							</ul>
 						</nav>
-						<p><a href="">Clique aqui para subscrever o meu serviço.</a></p>
+						<!-- Create a button that your customers click to complete their purchase. Customize the styling to suit your branding. -->
+						<p><button style="background:#000;color:#FFF;padding:8px 12px;border:0;border-radius:4px;font-size:1em;cursor:pointer;font-weight:bold;" id="checkout-button-plan_FOQbgQI5CIVSxS" role="link">Clique aqui para subscrever o meu serviço</button></p>
+						<div id="error-message"></div>
 					</header>
 
 				<!-- Footer -->
