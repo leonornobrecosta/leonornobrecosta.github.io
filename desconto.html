@@ -1,0 +1,79 @@
+<!DOCTYPE HTML>
+<!--
+	Aerial by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>Leonor Nobre Costa - Contabilidade</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+		<!-- Load Stripe.js on your website. -->
+		<script src="https://js.stripe.com/v3"></script>
+	</head>
+	<body class="is-preload">
+		<div id="wrapper">
+			<div id="bg"></div>
+			<div id="overlay"></div>
+			<div id="main">
+
+				<!-- Header -->
+					<header id="header">
+						<h1>Leonor Nobre Costa</h1>
+						<p>Contabilidade</p>
+						<nav>
+							<ul>
+								<li><a href="tel:+351919741671" class="icon solid fa-mobile-alt"><span class="label">Telemóvel</span></a></li>
+								<li><a href="mailto:mleoflor@gmail.com" class="icon solid fa-envelope"><span class="label">Email</span></a></li>
+							</ul>
+						</nav>
+						<!-- Create a button that your customers click to complete their purchase. Customize the styling to suit your branding. -->
+						<p><button style="background:#000;color:#FFF;padding:8px 12px;border:0;border-radius:4px;font-size:1em;cursor:pointer;font-weight:bold;" id="checkout-button-plan_FX4KWhAPgIQrT4" role="link">Clique aqui para subscrever o meu serviço com desconto</button></p>
+						<div id="error-message"></div>
+					</header>
+
+				<!-- Footer -->
+					<footer id="footer">
+						<span class="copyright">&copy; Leonor Nobre Costa. Design: <a href="http://html5up.net">HTML5 UP</a>.</span>
+					</footer>
+
+			</div>
+		</div>
+		<script>
+			window.onload = function() { document.body.classList.remove('is-preload'); }
+			window.ontouchmove = function() { return false; }
+			window.onorientationchange = function() { document.body.scrollTop = 0; }
+		</script>
+		
+		<script>
+			var stripe = Stripe('pk_live_JvpFpLSvJsbpkQpkWeFuPdaQ00Ydj7UZO7');
+
+			var checkoutButton = document.getElementById('checkout-button-plan_FX4KWhAPgIQrT4');
+			checkoutButton.addEventListener('click', function () {
+				// When the customer clicks on the button, redirect
+				// them to Checkout.
+				stripe.redirectToCheckout({
+					items: [{plan: 'plan_FX4KWhAPgIQrT4', quantity: 1}],
+
+					// Do not rely on the redirect to the successUrl for fulfilling
+					// purchases, customers may not always reach the success_url after
+					// a successful payment.
+					// Instead use one of the strategies described in
+					// https://stripe.com/docs/payments/checkout/fulfillment
+					successUrl: 'http://www.leonornobrecosta.com/success',
+					cancelUrl: 'http://www.leonornobrecosta.com/canceled',
+				}).then(function (result) {
+					if (result.error) {
+						// If `redirectToCheckout` fails due to a browser or network
+						// error, display the localized error message to your customer.
+						var displayError = document.getElementById('error-message');
+						displayError.textContent = result.error.message;
+					}
+				});
+			});
+		</script>
+	</body>
+</html>
